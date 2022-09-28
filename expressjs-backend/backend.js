@@ -86,4 +86,13 @@ function addUser(user){
    users['users_list'].push(user);
 }
 
-//RANDOM {} IN MIDDLE OF LIST
+app.delete('/users', (req, res) => {
+   const usertoDelete = req.body;
+   removeUser(usertoDelete)
+   res.status(200).end();
+})
+
+function removeUser(user){
+   users['users_list'].pop(user);
+}
+
