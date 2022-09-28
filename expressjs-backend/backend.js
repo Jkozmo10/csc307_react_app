@@ -42,18 +42,37 @@ app.get('/', (req, res) => {
 
 app.get('/users', (req, res) => {
    const name = req.query.name;
-   if (name != undefined){
-       let result = findUserByName(name);
+   const job = req.query.job
+   if (name != undefined && job != undefined){
+       let result = findUserByNameAndJob(name, job);
        result = {users_list: result};
        res.send(result);
+   }
+   else if(name != undefined){
+      let result = findUserByName(name, job);
+      result = {users_list: result};
+      res.send(result);
+   }
+   else if (job != undefined){
+      let result = findUserByJob(job);
+      result = {users_list: result}
+      res.send(result)
    }
    else{
        res.send(users);
    }
 });
 
-const findUserByName = (name) => { 
+const findUserByNameAndJob = (name, job) => { 
+   return users['users_list'].filter( (user) => user['name'] === name && user['job'] === job); 
+}
+
+const findUserByName= (name) => { 
    return users['users_list'].filter( (user) => user['name'] === name); 
+}
+
+const findUserByJob = (job) => {
+   return users['users_list'].filter( (user) => user['job'] === job);
 }
 
 app.listen(port, () => {
@@ -95,4 +114,3 @@ app.delete('/users', (req, res) => {
 function removeUser(user){
    users['users_list'].pop(user);
 }
-
