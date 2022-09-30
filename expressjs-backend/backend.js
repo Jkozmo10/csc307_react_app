@@ -130,6 +130,7 @@ app.delete('/users/:id', (req, res) => {
       //console.log(index);
       users['users_list'].splice(index, 1); //DELETE MUST ABORT
       //console.log(users['users_list']);
+      res.status(200).end();
    }
 });/*
 
