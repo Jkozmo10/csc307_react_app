@@ -30,10 +30,12 @@ const users = {
  }
 
 
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 5001;
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -105,7 +107,7 @@ function addUser(user){
    users['users_list'].push(user);
 }
 
-app.delete('/users', (req, res) => {
+/*app.delete('/users', (req, res) => {
    const usertoDelete = req.body;
    removeUser(usertoDelete)
    res.status(200).end();
@@ -113,4 +115,25 @@ app.delete('/users', (req, res) => {
 
 function removeUser(user){
    users['users_list'].pop(user);
-}
+}*/
+app.delete('/users/:id', (req, res) => {
+   const id = req.params['id']; //or req.params.id
+   //console.log(id)
+   let result = findUserById(id);
+   //console.log(result)
+   if (result === undefined || result.length == 0)
+       res.status(404).send('Resource not found.');
+   else {
+      //console.log(users['users_list'].indexOf(result.name));
+      //console.log(users['users_list']);
+      let index = users['users_list'].indexOf(result);
+      //console.log(index);
+      users['users_list'].splice(index, 1); //DELETE MUST ABORT
+      //console.log(users['users_list']);
+   }
+});/*
+
+function findUserById(id) {
+   return users['users_list'].find( (user) => user['id'] === id); // or line below
+   //return users['users_list'].filter( (user) => user['id'] === id);
+}*/
