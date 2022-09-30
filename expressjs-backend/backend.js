@@ -99,23 +99,22 @@ function findUserById(id) {
 
 app.post('/users', (req, res) => {
    const userToAdd = req.body;
+   const id = randomID();
+   req.body.id = id;
+   
+   console.log(userToAdd)
    addUser(userToAdd);
-   res.status(200).end();
+   res.status(201).end();
 });
 
 function addUser(user){
    users['users_list'].push(user);
 }
 
-/*app.delete('/users', (req, res) => {
-   const usertoDelete = req.body;
-   removeUser(usertoDelete)
-   res.status(200).end();
-})
+function randomID(){
+   return String(Date.now());
+}
 
-function removeUser(user){
-   users['users_list'].pop(user);
-}*/
 app.delete('/users/:id', (req, res) => {
    const id = req.params['id']; //or req.params.id
    //console.log(id)
