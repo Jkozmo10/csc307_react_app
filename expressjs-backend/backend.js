@@ -101,10 +101,10 @@ app.post('/users', (req, res) => {
    const userToAdd = req.body;
    const id = randomID();
    req.body.id = id;
-   
-   console.log(userToAdd)
-   addUser(userToAdd);
-   res.status(201).end();
+   //res.send(req.body)
+   //console.log(userToAdd)
+   addUser(req.body);
+   res.status(201).send(req.body);
 });
 
 function addUser(user){
