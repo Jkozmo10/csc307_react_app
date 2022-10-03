@@ -117,19 +117,15 @@ function randomID(){
 
 app.delete('/users/:id', (req, res) => {
    const id = req.params['id']; //or req.params.id
-   //console.log(id)
    let result = findUserById(id);
-   //console.log(result)
    if (result === undefined || result.length == 0)
        res.status(404).send('Resource not found.');
    else {
-      //console.log(users['users_list'].indexOf(result.name));
-      //console.log(users['users_list']);
       let index = users['users_list'].indexOf(result);
       //console.log(index);
       users['users_list'].splice(index, 1); //DELETE MUST ABORT
       //console.log(users['users_list']);
-      res.status(200).end();
+      res.status(204).end();
    }
 });/*
 

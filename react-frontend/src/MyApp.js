@@ -6,12 +6,13 @@ import React, {useState, useEffect} from 'react';
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);  
-    function removeOneCharacter (index) {
+
+    /*function removeOneCharacter (index) {
       const updated = characters.filter((character, i) => {
           return i !== index
         });
         setCharacters(updated);
-      }
+      }*/
     /*function updateList(person) {
       setCharacters([...characters, person]);
     }*/
@@ -42,6 +43,26 @@ function MyApp() {
      return false;
   }
 }
+async function makeDeleteCall(id){
+  try {
+    const response = await axios.delete('http://localhost:5001/users/' + id);
+    return response
+  }
+  catch (error) {
+    console.log(error)
+    return false;
+  }
+}
+function removeOneCharacter (index, id) {
+    makeDeleteCall(id).then( result => {
+    if (result && result.status === 204) {
+      const updated = characters.filter((character, i) => {
+        return i !== index
+      });
+      setCharacters(updated);
+    };
+  })
+  }
 
 function updateList(person) { 
   makePostCall(person).then( result => {
